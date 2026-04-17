@@ -10,9 +10,25 @@ connectDB();
 
 const app = express();
 
-// CORS
+// CORS - allow multiple origins (local development + production)
+const allowedOrigins = [
+  process.env.CLIENT_URL,        // Vercel frontend URL
+  'http://localhost:3000',       // Local React dev server
+  'http://localhost:3001'        // Agar different port use karte ho
+].filter(Boolean); // Remove undefined values
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.warn(`CORS blocked origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   optionsSuccessStatus: 200
 }));
