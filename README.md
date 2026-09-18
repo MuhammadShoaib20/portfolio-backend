@@ -90,6 +90,17 @@ CLOUDINARY_API_SECRET=
 CLIENT_URL=http://localhost:3000
 ```
 
+> **CORS notes**
+> - The Vercel production URL (`https://portfolio-frontend-two-eta.vercel.app`) is
+>   always whitelisted in `config/cors.js`, so a missing/incorrect `CLIENT_URL`
+>   on the hosting dashboard can no longer break the frontend.
+> - Need more domains (staging, custom domain)? Add them comma separated, no
+>   trailing slash: `CLIENT_URLS=https://a.com,https://b.com`
+> - Vercel preview deployments of this project are allowed by default. Disable
+>   them with `ALLOW_VERCEL_PREVIEWS=false`.
+> - Origins are trimmed/lowercased and trailing slashes are removed, so
+>   `https://site.com/` and `https://SITE.com` match too.
+
 ---
 
 ## ▶️ Run Server
